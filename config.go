@@ -44,7 +44,7 @@ func ReadConfigDefault[T any]() (*T, error) {
 		return nil, err
 	}
 
-	err = copier.Copy(cfg1, cfg2)
+	err = copier.CopyWithOption(cfg1, cfg2, copier.Option{IgnoreEmpty: true, DeepCopy: true})
 	if err != nil {
 		log.Printf("copier.Copy error: %v", err)
 		return nil, err
