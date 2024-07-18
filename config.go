@@ -12,33 +12,34 @@ import (
 	"regexp"
 )
 
-func ReadConfigDefault[T any](configType string) (*T, error) {
-	if configType == "" {
-		configType = "yml"
-	}
-	configName := "app"
+var (
+	ConfigName = "app"
+	ConfigType = "yml"
+)
+
+func ReadConfigDefault[T any]() (*T, error) {
 	confRoot := getConfRoot()
 
 	profile := dgsys.GetProfile()
 	if profile == "" {
-		return ReadConfigFile[T](confRoot, configName, configType)
+		return ReadConfigFile[T](confRoot, ConfigName, ConfigType)
 	}
 
 	profileConfigName := fmt.Sprintf("app-%s", profile)
-	if !utils.ExistsFile(filepath.Join(confRoot, profileConfigName+"."+configType)) {
-		return ReadConfigFile[T](confRoot, configName, configType)
+	if !utils.ExistsFile(filepath.Join(confRoot, profileConfigName+"."+ConfigType)) {
+		return ReadConfigFile[T](confRoot, ConfigName, ConfigType)
 	}
 
-	if !utils.ExistsFile(filepath.Join(confRoot, configName+"."+configType)) {
-		return ReadConfigFile[T](confRoot, profileConfigName, configType)
+	if !utils.ExistsFile(filepath.Join(confRoot, ConfigName+"."+ConfigType)) {
+		return ReadConfigFile[T](confRoot, profileConfigName, ConfigType)
 	}
 
-	cfg1, err := ReadConfigFile[T](confRoot, configName, configType)
+	cfg1, err := ReadConfigFile[T](confRoot, ConfigName, ConfigType)
 	if err != nil {
 		return nil, err
 	}
 
-	cfg2, err := ReadConfigFile[T](confRoot, profileConfigName, configType)
+	cfg2, err := ReadConfigFile[T](confRoot, profileConfigName, ConfigType)
 	if err != nil {
 		return nil, err
 	}
