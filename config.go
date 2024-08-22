@@ -60,15 +60,12 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 		return nil, err
 	}
 
-	// 替换配置中的环境变量占位符
-	if dgsys.IsFormalProfile() {
-		viper.AutomaticEnv()
-		configContent := viper.AllSettings()
-		replacedConfig := replaceEnvVariables(configContent)
+	viper.AutomaticEnv()
+	configContent := viper.AllSettings()
+	replacedConfig := replaceEnvVariables(configContent)
 
-		if err := viper.MergeConfigMap(replacedConfig); err != nil {
-			return nil, err
-		}
+	if err := viper.MergeConfigMap(replacedConfig); err != nil {
+		return nil, err
 	}
 
 	c := new(T)
