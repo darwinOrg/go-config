@@ -3,9 +3,9 @@ module github.com/darwinOrg/go-config
 go 1.19
 
 require (
-	github.com/darwinOrg/go-common v0.1.58
+	github.com/darwinOrg/go-common v0.1.59
 	github.com/jinzhu/copier v0.4.0
-	github.com/spf13/viper v1.18.2
+	github.com/spf13/viper v1.19.0
 )
 
 require (
