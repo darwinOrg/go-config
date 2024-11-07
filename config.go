@@ -19,7 +19,7 @@ var (
 )
 
 func ReadConfigDefault[T any]() (*T, error) {
-	confRoot := getConfRoot()
+	confRoot := GetConfRoot()
 
 	profile := dgsys.GetProfile()
 	if profile == "" {
@@ -78,7 +78,7 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 	return c, err
 }
 
-func getConfRoot() string {
+func GetConfRoot() string {
 	confRoot := os.Getenv("CONF_ROOT")
 	if confRoot == "" {
 		confRoot = "resources"
