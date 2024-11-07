@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"regexp"
 )
@@ -78,11 +79,17 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 }
 
 func getConfRoot() string {
-	confRoot := "./resources"
-	testConfRoot := os.Getenv("test.conf.root")
-	if testConfRoot != "" {
-		return testConfRoot
+	confRoot := os.Getenv("CONF_ROOT")
+	if confRoot == "" {
+		confRoot = "resources"
 	}
+	if !utils.ExistsDir(confRoot) {
+		confRoot = path.Join("..", "resources")
+		if !utils.ExistsDir(confRoot) {
+			log.Fatal("can not find confRoot")
+		}
+	}
+
 	return confRoot
 }
 
