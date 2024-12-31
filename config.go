@@ -106,11 +106,20 @@ func replaceEnvVariables(config map[string]any) map[string]any {
 	return config
 }
 
-// 替换字符串中的环境变量占位符
+// 替换字符串中的环境变量占位符，支持默认值
 func replaceStringEnv(value string) string {
-	re := regexp.MustCompile(`\${(.*?)}`)
+	re := regexp.MustCompile(`\${(.*?)(?::(.*?))?}`)
 	return re.ReplaceAllStringFunc(value, func(match string) string {
-		envName := match[2 : len(match)-1] // 移除 "${" 和 "}"
-		return os.Getenv(envName)
+		// 提取环境变量名和默认值
+		parts := re.FindStringSubmatch(match)
+		envName := parts[1]
+		defaultValue := parts[2]
+
+		// 获取环境变量值
+		envValue := os.Getenv(envName)
+		if envValue == "" && defaultValue != "" {
+			return defaultValue
+		}
+		return envValue
 	})
 }
