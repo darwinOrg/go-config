@@ -83,14 +83,26 @@ func MustConfRoot() string {
 	if confRoot == "" {
 		confRoot = "resources"
 	}
-	if !utils.ExistsDir(confRoot) {
-		confRoot = path.Join("..", "resources")
-		if !utils.ExistsDir(confRoot) {
-			log.Fatal("can not find confRoot")
-		}
+
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("failed to get current working directory: %v", err)
 	}
 
-	return confRoot
+	for {
+		if utils.ExistsDir(path.Join(currentDir, confRoot)) {
+			return path.Join(currentDir, confRoot)
+		}
+
+		parentDir := filepath.Dir(currentDir)
+		if parentDir == currentDir {
+			break
+		}
+		currentDir = parentDir
+	}
+
+	log.Fatal("can not find confRoot")
+	return ""
 }
 
 // 替换配置中的环境变量占位符
