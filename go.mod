@@ -5,7 +5,6 @@ go 1.23.1
 require (
 	github.com/darwinOrg/go-common v0.1.81
 	github.com/jinzhu/copier v0.4.0
-	github.com/joho/godotenv v1.5.1
 	github.com/spf13/viper v1.20.0
 )
 

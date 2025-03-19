@@ -5,7 +5,6 @@ import (
 	dgsys "github.com/darwinOrg/go-common/sys"
 	"github.com/darwinOrg/go-common/utils"
 	"github.com/jinzhu/copier"
-	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -77,10 +76,6 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 	}
 
 	return c, err
-}
-
-func LoadDotEnv(filenames ...string) {
-	_ = godotenv.Load(filenames...)
 }
 
 func MustConfRoot() string {
