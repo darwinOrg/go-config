@@ -20,7 +20,6 @@ var (
 )
 
 func ReadConfigDefault[T any]() (*T, error) {
-	LoadDotEnv()
 	confRoot := MustConfRoot()
 
 	profile := dgsys.GetProfile()
@@ -80,11 +79,8 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 	return c, err
 }
 
-func LoadDotEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Printf("Error loading .env file: %v", err)
-	}
+func LoadDotEnv(filenames ...string) {
+	_ = godotenv.Load(filenames...)
 }
 
 func MustConfRoot() string {
