@@ -21,13 +21,8 @@ var (
 
 func ReadConfigDefault[T any]() (*T, error) {
 	confRoot := MustConfRoot()
-	dotEnvFile := path.Join(confRoot, ".env")
-	if utils.ExistsFile(dotEnvFile) {
-		err := gotenv.Load(dotEnvFile)
-		if err != nil {
-			log.Printf("gotenv.Load error: %v", err)
-		}
-	}
+
+	LoadDotEnv(confRoot)
 
 	profile := dgsys.GetProfile()
 	if profile == "" {
@@ -84,6 +79,16 @@ func ReadConfigFile[T any](confRoot string, configName string, configType string
 	}
 
 	return c, err
+}
+
+func LoadDotEnv(confRoot string) {
+	dotEnvFile := path.Join(confRoot, ".env")
+	if utils.ExistsFile(dotEnvFile) {
+		err := gotenv.Load(dotEnvFile)
+		if err != nil {
+			log.Printf("gotenv.Load error: %v", err)
+		}
+	}
 }
 
 func MustConfRoot() string {
