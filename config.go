@@ -19,17 +19,15 @@ var (
 	ConfigType = "yml"
 )
 
-func init() {
-	if utils.ExistsFile(".env") {
-		err := gotenv.Load(".env")
+func ReadConfigDefault[T any]() (*T, error) {
+	confRoot := MustConfRoot()
+	dotEnvFile := path.Join(confRoot, ".env")
+	if utils.ExistsFile(dotEnvFile) {
+		err := gotenv.Load(dotEnvFile)
 		if err != nil {
 			log.Printf("gotenv.Load error: %v", err)
 		}
 	}
-}
-
-func ReadConfigDefault[T any]() (*T, error) {
-	confRoot := MustConfRoot()
 
 	profile := dgsys.GetProfile()
 	if profile == "" {
