@@ -6,6 +6,7 @@ import (
 	"github.com/darwinOrg/go-common/utils"
 	"github.com/jinzhu/copier"
 	"github.com/spf13/viper"
+	"github.com/subosito/gotenv"
 	"log"
 	"os"
 	"path"
@@ -17,6 +18,15 @@ var (
 	ConfigName = "app"
 	ConfigType = "yml"
 )
+
+func init() {
+	if utils.ExistsFile(".env") {
+		err := gotenv.Load(".env")
+		if err != nil {
+			log.Printf("gotenv.Load error: %v", err)
+		}
+	}
+}
 
 func ReadConfigDefault[T any]() (*T, error) {
 	confRoot := MustConfRoot()
