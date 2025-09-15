@@ -2,16 +2,17 @@ package dgcfg
 
 import (
 	"fmt"
-	dgsys "github.com/darwinOrg/go-common/sys"
-	"github.com/darwinOrg/go-common/utils"
-	"github.com/jinzhu/copier"
-	"github.com/spf13/viper"
-	"github.com/subosito/gotenv"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
 	"regexp"
+
+	dgsys "github.com/darwinOrg/go-common/sys"
+	"github.com/darwinOrg/go-common/utils"
+	"github.com/jinzhu/copier"
+	"github.com/spf13/viper"
+	"github.com/subosito/gotenv"
 )
 
 var (
