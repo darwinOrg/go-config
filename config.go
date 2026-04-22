@@ -18,6 +18,7 @@ import (
 var (
 	ConfigName = "app"
 	ConfigType = "yml"
+	envRe      = regexp.MustCompile(`\${(.*?)(?::(.*?))?}`)
 )
 
 func ReadConfigDefault[T any]() (*T, error) {
@@ -134,10 +135,9 @@ func replaceEnvVariables(config map[string]any) map[string]any {
 
 // 替换字符串中的环境变量占位符，支持默认值
 func replaceStringEnv(value string) string {
-	re := regexp.MustCompile(`\${(.*?)(?::(.*?))?}`)
-	return re.ReplaceAllStringFunc(value, func(match string) string {
+	return envRe.ReplaceAllStringFunc(value, func(match string) string {
 		// 提取环境变量名和默认值
-		parts := re.FindStringSubmatch(match)
+		parts := envRe.FindStringSubmatch(match)
 		envName := parts[1]
 		defaultValue := parts[2]
 

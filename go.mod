@@ -3,7 +3,7 @@ module github.com/darwinOrg/go-config
 go 1.24.1
 
 require (
-	github.com/darwinOrg/go-common v0.2.13
+	github.com/darwinOrg/go-common v0.2.28
 	github.com/jinzhu/copier v0.4.0
 	github.com/spf13/viper v1.21.0
 	github.com/subosito/gotenv v1.6.0
